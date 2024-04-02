@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thmeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul>
+      <!-- http//localhost:8080/sample/ex1 -->
+      <li><a th:href="@{/sample/ex1}">ex1</a></li>
+      <!-- / 가 앞에 붙어있으면 http//localhost:8080/ 부터 시작 -->
+      <!-- 현재주소(http//localhost:8080/sample/ex3)에서 => ex3 이 부분만 변경 -->
+      <li><a th:href="@{ex1}">ex1</a></li>
+
+      <!-- <a href="/sample/ex4?param1=10&param2=20"></a> -->
+      <li><a th:href="@{ex4(param1='data1', param2='data2')}">ex4</a></li>
+    </ul>
+  </body>
+</html>

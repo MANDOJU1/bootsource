@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thmeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,5 +7,149 @@
   </head>
   <body>
     <h1>BASIC</h1>
+    <h4>bno : <span th:text="${param.bno}"></span></h4>
+    <h4>bno : <span th:text="${bno}"></span></h4>
+    <div th:text="${name}"></div>
+    <div th:text="${dto}"></div>
+    <div th:utext="${'<h3>'+dto.first+'</h3>'}"></div>
+    <div th:text="${'<h3>'+dto.first+'</h3>'}"></div>
+
+    <!-- <div>
+      <h3 th:text="${dto.first}"></h3>
+    </div> -->
+
+    <ul>
+      <li>ID : <span th:text="${dto.id}"></span></li>
+      <li>FIRST : <span th:text="${dto.first}"></span></li>
+      <li>LAST : <span th:text="${dto.last}"></span></li>
+      <li>REGTIME : <span th:text="${dto.regTime}"></span></li>
+    </ul>
+
+    <h4>SampleDto List</h4>
+    <ul>
+      <li th:each="dto : ${list}">[[${dto}]]</li>
+    </ul>
+
+    <h4>SampleDto List2</h4>
+    <ul>
+      <li th:each="dto : ${list}" th:text="${dto}"></li>
+    </ul>
+
+    <h4>SampleDto List3</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>FIRST</th>
+          <th>LAST</th>
+          <th>REGTIME</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="dto : ${list}">
+          <td th:text="${dto.id}"></td>
+          <td>
+            <a th:text="${dto.first}" th:href="@{ex1(id=${dto.id})}"></a>
+          </td>
+          <td th:text="${dto.last}"></td>
+          <!-- https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#temporals-java.time -->
+          <td th:text="${#temporals.format(dto.regTime, 'yyyy-MM-dd:mm:ss')}"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>SampleDto List4</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>index</th>
+          <th>count</th>
+          <th>size</th>
+          <th>odd/even</th>
+          <th>ID</th>
+          <th>FIRST</th>
+          <th>LAST</th>
+          <th>REGTIME</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 
+          index : 번호(0부터 시작)
+          count : 번호(1부터 시작)
+          size : 전체 개수
+          odd / even : 홀, 짝 확인 
+         -->
+        <tr th:each="dto,state : ${list}">
+          <td th:text="${state.index}"></td>
+          <td th:text="${state.count}"></td>
+          <td th:text="${state.size}"></td>
+          <td th:text="${state.odd} + '/' + ${state.even}"></td>
+          <td th:text="${dto.id}"></td>
+          <td th:text="${dto.first}"></td>
+          <td th:text="${dto.last}"></td>
+          <td th:text="${#temporals.format(dto.regTime, 'yyyy-MM-dd:mm:ss')}"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- if -->
+    <h4>SampleDto List5</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>FIRST</th>
+          <th>LAST</th>
+          <th>REGTIME</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="dto : ${list}" th:if="${dto.id % 5 == 0}">
+          <td th:text="${dto.id}"></td>
+          <td th:text="${dto.first}"></td>
+          <td th:text="${dto.last}"></td>
+          <td th:text="${#temporals.format(dto.regTime, 'yyyy-MM-dd:mm:ss')}"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ifelse -->
+    <h4>SampleDto List6</h4>
+    <ul>
+      <li th:each="dto : ${list}">
+        <span th:if="${dto.id % 5 == 0}" th:text="${'-----' + dto.id}"></span>
+        <span th:unless="${dto.id % 5 == 0}" th:text="${dto.first}"></span>
+      </li>
+    </ul>
+
+    <!-- List6을 삼항연산자로 바꿈 -->
+    <h4>SampleDto List7</h4>
+    <ul>
+      <li th:each="dto : ${list}" th:text="${dto.id % 5 == 0} ? ${'-----' + dto.id}:${dto.first}"></li>
+    </ul>
+
+    <!-- swith case -->
+    <h4>SampleDto List8</h4>
+    <ul>
+      <li th:each="dto,state : ${list}" th:switch="${state.even}">
+        <span th:case="true" th:text="${'-----' + dto.first}"></span>
+        <span th:case="false" th:text="${'-----' + dto.last}"></span>
+      </li>
+    </ul>
+
+    <h4>thymeleaf 유틸리티 객체</h4>
+    <div th:text="${now}"></div>
+    <!-- java.utul.Date 인 경우 -->
+    <div th:text="${#dates.format(now, 'yyyy-MM-dd')}"></div>
+
+    <div th:text="${price}"></div>
+    <div th:text="${#numbers.formatInteger(price,3,'COMMA')}"></div>
+
+    <div th:text="${title}"></div>
+    <div th:text="${#strings.replace(title,'s','<b>s</b>')}"></div>
+    <div th:utext="${#strings.replace(title,'s','<b>s</b>')}"></div>
+    <div th:text="${#strings.startsWith(title,'This')}"></div>
+
+    <div th:text="${option}"></div>
   </body>
 </html>

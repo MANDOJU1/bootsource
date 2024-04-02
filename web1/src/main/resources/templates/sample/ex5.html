@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- header 영역 불러오기 -->
+    <div th:replace="/fragments/separate :: header"></div>
+    <h1>ex5</h1>
+    <!-- content 영역 불러오기 -->
+    <div th:insert="/fragments/separate :: content"></div>
+    <!-- footer 영역 불러오기 -->
+    <div th:insert="/fragments/separate :: footer"></div>
+  </body>
+</html>

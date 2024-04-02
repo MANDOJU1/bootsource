@@ -21,27 +21,39 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!-- 레이아웃 재사용 -->
+		<!-- dialect : 기존 제공된 버전을 변경 -->
+		<!-- thymeleaf 레이아웃 재사용 개념이 있는데 약간 불편함 => 개선 -->
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+
+		<!-- bean validation 라이브러리 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+		<!-- 스프링 부트 웹 개발 시 필요한 spring mvc 라이브러리 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- 자동으로 패키징해줌 -->
+		<!-- 코드 수정시 자동으로 배포 (자동으로 패키징해줌) / css, js 수정 시 새로고침(ctrl + f5) 없이 적용 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

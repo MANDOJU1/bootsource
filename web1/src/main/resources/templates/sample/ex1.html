@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thmeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,5 +7,16 @@
   </head>
   <body>
     <h1>ex1</h1>
+    <p th:text="${result}"></p>
+    <script>
+      // SUCCESS is not defined
+      // const result = 'SUCCESS';
+      // const result = [[${result}]] => 문자열이기 때문에 '',"" 붙여야함
+      const result = "[[${result}]]";
+    </script>
+    <!-- 위에 방법이나 아래방법 중 하나 쓰면 됨 -->
+    <script th:inline="javascript">
+      // const result1 = [[${result}]];
+    </script>
   </body>
 </html>

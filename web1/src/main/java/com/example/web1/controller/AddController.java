@@ -44,9 +44,7 @@ public class AddController {
     // @PostMapping("/add")
     // public void addPost(@RequestParam(value = "op1", defaultValue = "0") int
     // num1,
-    // @RequestParam(value = "op2", defaultValue = "0") int num2) { // 타입변환을
-    // // 알아서
-    // // 해줌
+    // @RequestParam(value = "op2", defaultValue = "0") int num2) { // 타입변환을알아서해줌
     // log.info("/calc/add post 요청");
     // log.info("num1 {}", num1);
     // log.info("num2 {}", num2);
