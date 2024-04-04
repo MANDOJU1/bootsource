@@ -1,5 +1,6 @@
 package com.example.jpa.repository;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,7 @@ import com.example.jpa.entity.Member;
 import com.example.jpa.entity.RoleType;
 
 @SpringBootTest
-public class MemeberRepositoryTest {
-
+public class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
@@ -25,7 +25,6 @@ public class MemeberRepositoryTest {
                     .roleType(RoleType.USER)
                     .description("user" + i)
                     .build();
-
             memberRepository.save(member);
         });
     }
@@ -33,27 +32,28 @@ public class MemeberRepositoryTest {
     @Test
     public void readTest() {
         System.out.println(memberRepository.findById("user1"));
+
         memberRepository.findAll().forEach(member -> System.out.println(member));
 
-        memberRepository.findByUserName("user1").forEach(member -> {
-            System.out.println(member);
-        });
+        System.out.println("------------------");
+        // 특정이름을 조회
+        memberRepository.findByUserName("user1")
+                .forEach(member -> System.out.println(member));
     }
 
     @Test
     public void updateTest() {
-        Member member = memberRepository.findById("user1").get();
+        Optional<Member> result = memberRepository.findById("user1");
 
-        // ifPresent() 방법도 있음
-        member.setAge(30);
-        member.setRoleType(RoleType.ADMIN);
-        System.out.println(memberRepository.save(member));
+        result.ifPresent(member -> {
+            member.setRoleType(RoleType.ADMIN);
+            memberRepository.save(member);
+        });
     }
 
     @Test
     public void deleteTest() {
-        Member member = memberRepository.findById("user50").get();
+        Member member = memberRepository.findById("user20").get();
         memberRepository.delete(member);
     }
-
 }

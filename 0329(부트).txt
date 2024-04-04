@@ -1,0 +1,83 @@
+자바 웹 개발 => jsp / servlet 
+
+1) spring framework 관리해주는 것들을 bean(커피콩) 이라고 부름
+
+2) spring boot
+=> 내장톰캣
+=> jar or war
+     애플리케이션 개발하고 테스트 후 실제 운영 서버에 배포하기 위해서는 패키지 필요
+     ==> 웹 어플리케이션인 경우는 war 파일로 패키징 함
+     ==> jar : 일반 응용 프로그램
+=> 라이브러리 자동 관리(pom.xml)
+=> spring framework 와 다르게 설정 자동화
+
+화면단 결정
+=> jsp (default 아님)
+=> thymeleaf ( html 확장자를 사용, jsp 유사)
+   - 다른 종류 freemaker, groovy, mushache
+ 
+   
+프로젝트 구조
+1) 자바 파일
+	 src/main/java/기본패키지/
+	 
+2) html, css, js
+	 static/
+	 
+3) templates
+   thymeleaf 파일
+   
+4) applcaition.properties : 프로젝트 환경설정
+   db 설정, 서버 포트 변경, 로그 설정, ... 
+   
+- 스프링 부트에서 데이터베이스 연동
+1) 스프링 jdbc 
+2) ORM 라이브러리
+	 - MyBatis
+	 - hibernate
+	 
+스프링 중요 개념
+1. DI(Dependency Injection) : 의존성 주입
+	 - setter, 생성자를 이용한 객체 생성
+=> 스프링 컨테이너가 필요한 객체를 필요한 시점에 주입해줄게(IoC)
+=> Inversion of Control(제어의 역전)
+
+
+- 모든 요청은 컨트롤러에 경로가 있어야 함
+==>직접적으로 파일 링크 불가
+<a href="index.html">index</a> (X)
+==> 컨트롤러 경로 지정
+<a href="/">index</a> (O)
+
+사용자 입력 값 가져오기 (HttpServletRequest req, 파라메터)
+1. HttpServletRequest req 이용
+2. 파라메터 이용 (form 이름과 변수명 일치)
+3. DTO 이용
+
+
+★ 어노테이션★  외우기 !! 
+@Component : 스프링컨테이너가 관리가 필요한 모든 객체에 사용
+@Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해 줌
+@Service : 서비스 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해 줌
+
+@Autowired : 객체 주입 (생성된 객체 넣어줘)
+private MemoRepository memoRepository = new MemoRepository() => X
+MemoRepository 객체 생성해서 스프링 컨테이너가 가지고 있음
+
+
+@RequestMapping(value="", method=) : 경로 지정 (예전버전)
+@GetMapping("") : @RequestMapping 의 GET 간략화
+@PostMapping("") : @RequestMapping 의 POST 간략화
+@RequestParam() : Request에서 파라메터의 이름을 지정할 때 사용
+@ModelAttribute() : Dto 객체 이름 지정
+										== model.addAttribute("page", page) (DB에서 가져온 값 사용할 때 사용)
+										
+										
+- 데이터베이스 연동
+1) JDBC 사용
+
+스프링 프레임워크
+1) JDBC 사용   (X)
+2) 스프링 DAO  (X)
+3) 마이바티즈 
+4) 하이버네이트 ORM

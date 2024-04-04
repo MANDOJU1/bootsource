@@ -1,5 +1,5 @@
 package com.example.jpa.entity;
 
-public enum ItemStatus {
+public enum ItemSellStatus {
     SELL, SOLD_OUT
 }

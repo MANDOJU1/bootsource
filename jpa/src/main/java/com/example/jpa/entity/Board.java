@@ -14,30 +14,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@ToString
 @Builder
 @Table(name = "pro_board")
 @Entity
 public class Board {
-
     @SequenceGenerator(name = "board_seq_gen", sequenceName = "board_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq_gen")
-
     @Id
-    @Column(length = 8, nullable = true) // nullable = true 생략가능
-    private Integer id;
+    private Long id;
 
-    @Column(length = 100)
+    @Column(nullable = true, length = 100)
     private String title;
 
-    @Column(length = 1500)
+    @Column(nullable = true, length = 1500)
     private String content;
 
-    @Column(length = 50)
+    @Column(nullable = true, length = 50)
     private String writer;
-
 }

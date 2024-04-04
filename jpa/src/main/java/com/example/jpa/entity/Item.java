@@ -23,36 +23,35 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
-@Entity
 @Table(name = "jpa_item")
+@Entity
 public class Item {
 
     @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")
     @Id
-    @Column(length = 19)
     private Long id;
 
     @Column(length = 50)
     private String itemNm;
 
-    private int price;
+    private Integer price;
+    private Integer stockNumber;
 
-    private int stockNumber;
-
+    @Column(length = 255)
     private String itemDetail;
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus itemSellStatus;
+    @Column(length = 255)
+    private ItemSellStatus itemSellStatus;
 
     @CreatedDate
     private LocalDateTime regTime;
 
     @LastModifiedDate
     private LocalDateTime updateTime;
-
 }

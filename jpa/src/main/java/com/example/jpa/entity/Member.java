@@ -20,19 +20,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// uniqueConstraints : 유니크 제약조건
-@Table(name = "membertbl", uniqueConstraints = {
-        @UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = { "name", "age" }) })
-@Entity
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Table(name = "membertbl", uniqueConstraints = {
+        @UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = { "name", "age" }) })
+@Entity
 public class Member {
-
-    // id, name, age, roleType(ADMIN, USER), created_date, last_modified_date,
+    // id, name, age, roleType(ADMIN, USER), create_date, last_modified_datae,
     // description
     @Id
     private String id;
@@ -42,15 +40,19 @@ public class Member {
 
     private Integer age;
 
+    // RoleType enum에서 제한한 값이 들어옴
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    @CreatedDate // insert 시 시간 자동 저장
+    // insert 시 시간 자동 저장
+    @CreatedDate
     private LocalDateTime createDate;
 
-    @LastModifiedDate // 마지막으로 변경된 시간 자동 저장
+    // 마지막으로 변경된 시간 자동 저장
+    @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @Lob // 대용량 데이터 담기
+    // 대용량 데이터 담을 때
+    @Lob
     private String description;
 }
