@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
     // completed 컬럼 값에 따라 조회
-    List<Todo> findByCompleted(boolean completed);
+    List<Todo> findByCompleted(Boolean completed);
+
+    // where completed=? order by id desc
+    List<Todo> findByCompletedOrderByIdDesc(Boolean completed);
 
     // important 컬럼 값에 따라 조회
-    List<Todo> findByImportant(boolean important);
+    List<Todo> findByImportant(Boolean important);
 }

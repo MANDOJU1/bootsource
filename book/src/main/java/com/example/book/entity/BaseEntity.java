@@ -1,4 +1,4 @@
-package com.example.todo.entity;
+package com.example.book.entity;
 
 import java.time.LocalDateTime;
 
@@ -9,9 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 @EntityListeners(value = AuditingEntityListener.class)
 @MappedSuperclass // BaseEntity 상속할 경우 필드를 컬럼으로 인식하기
