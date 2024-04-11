@@ -71,6 +71,7 @@ MemoRepository 객체 생성해서 스프링 컨테이너가 가지고 있음
 @RequestParam() : Request에서 파라메터의 이름을 지정할 때 사용
 @ModelAttribute() : Dto 객체 이름 지정
 										== model.addAttribute("page", page) (DB에서 가져온 값 사용할 때 사용)
+                              == request.setAttribute("dto", dto)
 										
 										
 - 데이터베이스 연동
