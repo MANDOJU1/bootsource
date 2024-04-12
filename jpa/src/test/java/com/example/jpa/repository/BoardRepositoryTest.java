@@ -65,6 +65,13 @@ public class BoardRepositoryTest {
 
     @Test
     public void queryMethodTest() {
+
+        // org.hibernate.query.SyntaxException 오류남
+        // @Query("SELECT * FROM board")
+        // List<Board> findList(); ==> 오라클에서 쓰는 것처럼 똑같이 쓸 수 없음 (JSQL이기 때문)
+        List<Board> list = boardRepository.findList();
+        System.out.println("findByTitle " + list.size());
+
         // where b1_0.title=?
         // List<Board> list = boardRepository.findByTitle("Title");
         // System.out.println("findByTitle " + list.size());
@@ -105,9 +112,10 @@ public class BoardRepositoryTest {
         // System.out.println("GreaterThanOrderByIdDesc " + list.size());
 
         // PageRequest.of(페이지번호, 게시물 수); 페이지번호 0 부터 시작
-        Pageable pageable = PageRequest.of(1, 10);
-        List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(0L, pageable);
-        list.forEach(System.out::println);
+        // Pageable pageable = PageRequest.of(1, 10);
+        // List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(0L,
+        // pageable);
+        // list.forEach(System.out::println);
     }
 
 }

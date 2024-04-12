@@ -68,4 +68,23 @@ public class MemoRepositoryTest {
         memoRepository.delete(memo);
         System.out.println("삭제 memo " + memoRepository.findById(24L)); // 삭제 memo Optional.empty
     }
+
+    @Test
+    public void queryMethodTest() {
+
+        // where m1_0.mno<?
+        List<Memo> list = memoRepository.findByMnoLessThan(5L);
+        list.forEach(System.out::println);
+        System.out.println("findByMnoLessThan" + list.size()); // 4
+
+        // where m1_0.mno<? order by m1_0.mno desc
+        list = memoRepository.findByMnoLessThanOrderByMnoDesc(10L);
+        list.forEach(System.out::println);
+        System.out.println("findByMnoLessThanOrderByMnoDesc" + list.size()); // 9
+
+        // where m1_0.mno between ? and ?
+        list = memoRepository.findByMnoBetween(50L, 70L);
+        list.forEach(System.out::println);
+        System.out.println("findByMnoBetween" + list.size()); // 21
+    }
 }
