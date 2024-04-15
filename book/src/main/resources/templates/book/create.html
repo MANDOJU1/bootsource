@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <div layout:fragment="content" class="container mt-5">
     <h3>도서 추가</h3>
+    <!-- 폼과 연결된 오브젝트 - th:object="${variable}" novalidate -->
     <form action="" method="post" th:object="${bookDto}" novalidate>
       <div class="mb-3 row">
         <label for="category" class="col-sm-2 col-form-label">분류</label>
         <div class="col-sm-10">
-          <!-- 첫번째 방법 / DB연동 -->
+          <!-- https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html#dropdownlist-selectors -->
           <select name="categoryName" id="" class="form-select">
             <option value="" th:selected="${bookDto.categoryName} == ''">선택</option>
-            <option th:each="cate : ${categories}" th:value="${type}" th:text="${cate}" th:selected="${bookDto.categoryName} == ${cate}"></option>
+            <option th:each="cate : ${categories}" th:value="${cate}" th:text="${cate}" th:selected="${bookDto.categoryName} == '${cate}'"></option>
           </select>
-
-          <!-- 두번째 방법 / 직접 사용 -->
           <!-- <select name="categoryName" id="" class="form-select">
             <option value="" th:selected="${bookDto.categoryName} == ''">선택</option>
             <option value="컴퓨터" th:selected="${bookDto.categoryName} == '컴퓨터'">컴퓨터</option>
@@ -21,7 +20,6 @@
             <option value="경제경영" th:selected="${bookDto.categoryName} == '경제경영'">경제경영</option>
             <option value="자기계발" th:selected="${bookDto.categoryName} == '자기계발'">자기계발</option>
           </select> -->
-
           <div class="text-danger" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></div>
         </div>
       </div>
@@ -71,6 +69,9 @@
         <button type="submit" class="btn btn-primary">등록</button>
         <button type="reset" class="btn btn-danger">취소</button>
       </div>
+      <input type="hidden" name="page" th:value="1" />
+      <input type="hidden" name="type" th:value="${requestDto.type}" />
+      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
   </div>
 </html>

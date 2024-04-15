@@ -3,10 +3,18 @@ package com.example.book.service;
 import java.util.List;
 
 import com.example.book.dto.BookDto;
+import com.example.book.dto.PageRequestDto;
+import com.example.book.dto.PageResultDto;
 import com.example.book.entity.Book;
+import com.example.book.entity.Category;
+import com.example.book.entity.Publisher;
 
 public interface BookService {
-    List<BookDto> getList();
+    // 페이지 나누기 전
+    // List<BookDto> getList();
+
+    // 페이지 나누기 후
+    PageResultDto<BookDto, Book> getList(PageRequestDto requestDto);
 
     Long bookCreate(BookDto dto);
 
@@ -36,9 +44,8 @@ public interface BookService {
         // Category 와 Publisher 이름이 입력되어 있음
 
         return Book.builder()
-                .id(dto.getId())
                 .title(dto.getTitle())
-                .writer(dto.getTitle())
+                .writer(dto.getWriter())
                 .price(dto.getPrice())
                 .salePrice(dto.getSalePrice())
                 .build();

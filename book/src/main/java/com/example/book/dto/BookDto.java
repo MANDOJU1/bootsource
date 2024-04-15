@@ -16,17 +16,14 @@ import lombok.ToString;
 @Builder
 @ToString
 public class BookDto {
-
     private Long id;
 
-    // NotBlank : 검증조건넣기
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
 
     @NotBlank(message = "작가를 입력해 주세요")
     private String writer;
 
-    // Integer 이기 때문에 NotBlank 가 아닌 NotNull로 넣어줘야함
     @NotNull(message = "가격을 입력해 주세요")
     private Integer price;
 
@@ -37,8 +34,10 @@ public class BookDto {
     private LocalDateTime lastModifiedDate;
 
     // 관계
-    @NotBlank(message = "카테고리 분류를 입력해 주세요")
+
+    @NotBlank(message = "분류를 입력해 주세요")
     private String categoryName;
+
     @NotBlank(message = "출판사를 입력해 주세요")
     private String publisherName;
 }
