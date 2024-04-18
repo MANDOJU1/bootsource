@@ -15,7 +15,8 @@ public class PageRequestDto {
     private int page;
     private int size;
 
-    // 검색하면서 따라 들어가기 위해 늘어남
+    // 검색하면서 따라 들어가기 위해 추가
+    // 초기화 안하면 null 임
     private String type;
     private String keyword;
 
@@ -23,6 +24,9 @@ public class PageRequestDto {
     public PageRequestDto() {
         this.page = 1;
         this.size = 10;
+        // localhost 오류 해결하기 위한 코드
+        this.type = "";
+        this.keyword = "";
     }
 
     // 스프링 페이지 나누기 정보 저장 → Pageable

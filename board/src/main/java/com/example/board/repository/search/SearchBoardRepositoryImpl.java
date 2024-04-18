@@ -51,9 +51,12 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
 
-        // 검색 기능 추가
+        // where b1_0.bno>?
+        // and (b1_0.title like ? escape '!'
+        // or b1_0.content like ? escape '!'
+        // or w1_0.email like ? escape '!')
+        // 검색
         BooleanBuilder builder = new BooleanBuilder();
-        // gno > 0 (gt : graterthan)
         builder.and(board.bno.gt(0L));
 
         // 검색 타입이 있는 경우
