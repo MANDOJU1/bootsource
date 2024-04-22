@@ -62,32 +62,61 @@ replyForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const replyer = document.querySelector("#replyer");
   const text = document.querySelector("#text");
+  // 새 글인지 수정인지 어떻게 구분 ? rno가 있는지 없는지 확인
+  // 수정하는 경우에 값이 들어옴
+  const rno = document.querySelector("#rno");
 
   const reply = {
     replyer: replyer.value,
     text: text.value,
     bno: bno,
+    rno: rno.value,
   };
 
-  fetch(`/replies/new`, {
-    method: "post",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(reply),
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data) {
-        alert(data + " 번 댓글 등록");
+  if (!rno.value) {
+    // 새 댓글 등록
+    fetch(`/replies/new`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reply),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) {
+          alert(data + " 번 댓글 등록");
 
-        // replyForm 내용 제거
-        replyer.value = "";
-        text.value = "";
+          // replyForm 내용 제거
+          replyer.value = "";
+          text.value = "";
 
-        replyLoaded();
-      }
-    });
+          replyLoaded();
+        }
+      });
+  } else {
+    // 댓글 수정
+    fetch(`/replies/${rno.value}`, {
+      method: "put",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reply),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) {
+          alert(data + " 번 댓글 수정");
+
+          // replyForm 내용 제거
+          replyer.value = "";
+          text.value = "";
+          rno.value = "";
+
+          replyLoaded();
+        }
+      });
+  }
 });
 
 // 테스트는 언제나 부분부분 차근히 가장 처음에는 이벤트가 잘 발생하는지
@@ -103,15 +132,34 @@ replyList.addEventListener("click", (e) => {
   // rno 클래스명 - data- 로 들어있는 건 dataset 으로 가져옴
   const rno = btn.closest(".reply-row").dataset.rno;
   console.log("rno", rno);
-  fetch(`/replies/${rno}`, {
-    method: "delete",
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data == "success") {
-        alert("댓글 삭제 성공");
-        // 새로고침
-        replyLoaded();
-      }
-    });
+
+  // 삭제 or 수정 버튼이 눌러졌을 때만 동작
+  // 삭제 or 수정 버튼이 클릭이 되었는지 구분하기
+  if (btn.classList.contains("btn-outline-danger")) {
+    fetch(`/replies/${rno}`, {
+      method: "delete",
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data == "success") {
+          alert("댓글 삭제 성공");
+          // 새로고침
+          replyLoaded();
+        }
+      });
+  } else if (btn.classList.contains("btn-outline-success")) {
+    // rno에 해당하는 댓글을 가져온 후 댓글 등록 폼에 가져온 내용 보여주기
+    fetch(`/replies/${rno}`, {
+      method: "get",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("데이터 가져오기");
+        console.log(data);
+
+        replyForm.querySelector("#rno").value = data.rno;
+        replyForm.querySelector("#replyer").value = data.replyer;
+        replyForm.querySelector("#text").value = data.text;
+      });
+  }
 });
