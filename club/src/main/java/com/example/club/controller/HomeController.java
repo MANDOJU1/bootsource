@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Log4j2
 @Controller
 public class HomeController {
-
     @GetMapping("/")
-    public String getMethodName() {
+    public String getHome() {
         log.info("home 요청");
         return "home";
     }
