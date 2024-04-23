@@ -4,6 +4,7 @@
 ## 프로젝트마다 생성되는 .gitignore 제외 ##
 */.gitignore
 languageServers-log
+club/src/main/resources/application-oauth.properties
 
 ## mvn 파일 제외 ##
 .mvn/
