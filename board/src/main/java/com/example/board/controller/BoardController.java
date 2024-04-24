@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ public class BoardController {
 
     private final BoardService service;
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto requestDto, Model model) {
         log.info("list 요청");
@@ -41,6 +43,7 @@ public class BoardController {
         model.addAttribute("dto", service.getRow(bno));
     }
 
+    @PreAuthorize("authentication.name == #dto.writerEmail")
     @PostMapping("/modify")
     public String postModify(BoardDto dto, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
@@ -55,8 +58,9 @@ public class BoardController {
         return "redirect:/board/read";
     }
 
+    @PreAuthorize("authentication.name == #writerEmail")
     @PostMapping("/remove")
-    public String postRemove(Long bno, RedirectAttributes rttr,
+    public String postRemove(Long bno, String writerEmail, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("remove 요청", bno);
 
@@ -67,11 +71,13 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public void getCreate(BoardDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("create 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid BoardDto dto, BindingResult result, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {

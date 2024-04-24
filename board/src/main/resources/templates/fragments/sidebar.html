@@ -5,12 +5,12 @@
     <div class="list-group list-group-flush">
       <a
         class="list-group-item list-group-item-action list-group-item-light p-3"
-        th:href="@{/board/list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+        th:href="@{/board/list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
         >목록</a
       >
       <a
         class="list-group-item list-group-item-action list-group-item-light p-3"
-        th:href="@{/board/create(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+        th:href="@{/board/create(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
         >등록</a
       >
       <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>

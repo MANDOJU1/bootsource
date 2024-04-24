@@ -19,6 +19,9 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/static/**", "/css/*", "/assets/*", "/img/*", "/js/*").permitAll()
+                .requestMatchers("/board/read").permitAll()
+                // 주소줄에 치고 modify를 들어올 수 있으니 그것도 막기 위해 이 코드 사용
+                .requestMatchers("/board/modify").authenticated()
                 .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout
