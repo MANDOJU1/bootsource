@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.board.dto.MemberDto;
 import com.example.board.dto.PageRequestDto;
@@ -42,13 +43,20 @@ public class MemberController {
 
     @PostMapping("/register")
     public String postRegister(@Valid MemberDto memberDto, BindingResult result,
-            @ModelAttribute("requestDto") PageRequestDto requestDto) {
+            @ModelAttribute("requestDto") PageRequestDto requestDto, RedirectAttributes rttr) {
         log.info("회원가입 요청 {} ", memberDto);
 
         if (result.hasErrors())
             return "/member/register";
 
-        service.register(memberDto);
+        try {
+            service.register(memberDto);
+        } catch (Exception e) {
+            // e.printStackTrace();
+            rttr.addFlashAttribute("dupEmail", e.getMessage());
+            // rttr.addAttribute("dupEmail", e.getMessage());
+            return "redirect:/member/register";
+        }
 
         return "redirect:/member/login";
     }
