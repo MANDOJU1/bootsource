@@ -4,12 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
-    <!-- multiple 여러개 업로드 가능 -->
     <input type="file" name="files" id="" multiple />
     <button class="uploadBtn">업로드</button>
+    <div id="output"></div>
     <script>
+      // x를 누르면 파일 삭제 요청
+      // a 태그 기능 중지 => href 값 가져와서 화면 출력
+      document.querySelector("#output").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        console.log("x 클릭", e.target); // <i class="fa-solid fa-xmark"></i>
+        console.log("x 클릭", e.currentTarget); // <a href="${element.imageURL}"><i class="fa-solid fa-xmark"></i></a>
+
+        const currentDiv = e.target.closest("div");
+
+        const filePath = e.target.closest("a").getAttribute("href");
+        console.log(filePath);
+
+        const formData = new FormData();
+        formData.append("filePath", filePath);
+
+        fetch("/upload/remove", {
+          method: "post",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            console.log(data);
+            if (data) {
+              // 해당 div 제거
+              currentDiv.remove();
+            }
+          });
+      });
+
+      function showUploadImages(arr) {
+        console.log("showUploadImages ", arr);
+
+        const output = document.querySelector("#output");
+
+        let tags = "";
+
+        arr.forEach((element) => {
+          tags += `<div>`;
+          tags += `<img src="display?fileName=${element.thumbImageURL}">`;
+          tags += `<a href="${element.imageURL}"><i class="fa-solid fa-xmark"></i></a>`;
+          tags += `</div>`;
+        });
+        output.insertAdjacentHTML("beforeend", tags);
+      }
+
       document.querySelector(".uploadBtn").addEventListener("click", () => {
         // files 에 있는 파일 목록을 가져와서 폼 형태로 만들기
         const inputFile = document.querySelector("[name='files']");
@@ -20,19 +73,17 @@
         console.log("files");
         console.log(files);
 
-        // 스크립트에서 폼 태그
+        // 스크립트에서 폼 태그 작성
         const formData = new FormData();
 
         for (let index = 0; index < files.length; index++) {
           formData.append("uploadFiles", files[index]);
         }
-
         // for (const key of formData.keys()) {
-        //   console.log(key);
+        //  console.log(key);
         // }
-
         // for (const value of formData.values()) {
-        //   console.log(value);
+        // console.log(value);
         // }
 
         fetch("/upload/uploadAjax", {
@@ -42,6 +93,8 @@
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
+
+            showUploadImages(data);
           });
       });
     </script>
