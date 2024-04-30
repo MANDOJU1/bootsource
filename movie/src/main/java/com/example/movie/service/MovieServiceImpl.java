@@ -36,9 +36,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto) {
 
-        Pageable pageable = pageRequestDto.getPageable(Sort.by("mno").descending());
-
-        Page<Object[]> result = movieImageRepository.getTotalList(pageable);
+        Page<Object[]> result = movieImageRepository.getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                pageRequestDto.getPageable(Sort.by("mno").descending()));
 
         Function<Object[], MovieDto> function = (en -> entityToDto((Movie) en[0],
                 (List<MovieImage>) Arrays.asList((MovieImage) en[1]),
@@ -105,6 +104,23 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(movie);
 
         // movie Image 삽입
+        List<MovieImage> movieImages = (List<MovieImage>) entityMap.get("imgList");
+        movieImages.forEach(image -> movieImageRepository.save(image));
+
+        return movie.getMno();
+    }
+
+    @Transactional
+    @Override
+    public Long movieUpdate(MovieDto movieDto) {
+        // dto → entity
+        Map<String, Object> entityMap = dtoToEntity(movieDto);
+
+        // movie 기존 image 제거
+        Movie movie = (Movie) entityMap.get("movie");
+        movieImageRepository.deleteByMovie(movie);
+
+        // movie image 삽입
         List<MovieImage> movieImages = (List<MovieImage>) entityMap.get("imgList");
         movieImages.forEach(image -> movieImageRepository.save(image));
 

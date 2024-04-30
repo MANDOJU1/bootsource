@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.movie.constant.MemberRole;
+import com.example.movie.dto.PageRequestDto;
 import com.example.movie.entity.Member;
 import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
@@ -109,9 +110,15 @@ public class MovieRepositoryTest {
     @Test
     public void movieImageListTest() {
 
-        PageRequest pageRequest = PageRequest.of(0, 10);
+        PageRequestDto requestDto = PageRequestDto.builder()
+                .type("t")
+                .keyword("Movie")
+                .page(1)
+                .size(10)
+                .build();
 
-        Page<Object[]> list = movieImageRepository.getTotalList(pageRequest);
+        Page<Object[]> list = movieImageRepository.getTotalList(requestDto.getType(), requestDto.getKeyword(),
+                requestDto.getPageable(Sort.by("mno").descending()));
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
@@ -140,6 +147,25 @@ public class MovieRepositoryTest {
 
         // 영화 삭제
         movieRepository.delete(movie);
+
+    }
+
+    // @Transactional
+    @Test
+    public void testFindReviews() {
+        Movie movie = Movie.builder().mno(19L).build();
+        List<Review> reviews = reviewRepository.findByMovie(movie);
+
+        // LazyInitializationException : could not initialize proxy
+        // fetch = FetchType.Lazy : select review table 만 실행
+        // 3번 영화에 리뷰가 4개면
+        // select 구문이 각각 4번 실행됨
+
+        reviews.forEach(review -> {
+            System.out.println(review);
+            System.out.println(review.getMember().getEmail());
+            System.out.println(review.getMember().getNickname());
+        });
 
     }
 

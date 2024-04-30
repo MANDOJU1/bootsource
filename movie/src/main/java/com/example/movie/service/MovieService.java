@@ -22,6 +22,8 @@ public interface MovieService {
 
     Long movieInsert(MovieDto movieDto);
 
+    Long movieUpdate(MovieDto movieDto);
+
     // [Movie(mno=99, title=Movie99), MovieImage(inum=296,
     // uuid=98fc2592-6d21-4015-a9fe-65a21ec35236, imgName=img0.jpg, path=null), 1,
     // 3.0]
