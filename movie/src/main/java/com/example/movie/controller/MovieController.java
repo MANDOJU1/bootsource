@@ -50,6 +50,7 @@ public class MovieController {
 
         Long mno = service.movieUpdate(movieDto);
 
+        // addFlashAttribute : 새로고침하면 사라짐
         rttr.addFlashAttribute("msg", mno);
         rttr.addAttribute("mno", movieDto.getMno());
 

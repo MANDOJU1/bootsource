@@ -16,7 +16,17 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/", "/assets/**", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/movie/list", "/movie/read").permitAll()
+                // 이미지는 보이지 않음 → 해결 방안 list.html 에 /upload/display를 열어야 이미지가 보임
+                .requestMatchers("/upload/display").permitAll()
+                // 리뷰가 보이지 않음 → 해결 방안 reviews 를 모두 열어야 리뷰가 보임
+                .requestMatchers("/reviews/**").permitAll()
+                .anyRequest().authenticated());
+        // login 페이지는 /member/login 경로요청 해야함
+        http.formLogin(login -> login
+                .loginPage("/member/login").permitAll());
         http.csrf(csrf -> csrf.disable()); // csrf 필터 비활성화
         return http.build();
     }
