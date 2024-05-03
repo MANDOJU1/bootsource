@@ -1,5 +1,6 @@
 package com.example.movie.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,6 +82,7 @@ public class MovieController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     public String postRegister(MovieDto movieDto, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {

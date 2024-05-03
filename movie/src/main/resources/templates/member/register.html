@@ -16,14 +16,17 @@
         <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
           <div class="w-full">
             <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
-            <form action="" method="post">
+            <form th:action="@{register}" method="post" th:object="${memberDto}">
               <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                   placeholder="이메일"
                   name="email"
+                  th:value="${memberDto.email}"
                 />
+                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                <div class="text-danger" th:if="${error}" th:text="${error}"></div>
               </label>
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Password</span>
@@ -32,7 +35,9 @@
                   placeholder="비밀번호"
                   type="password"
                   name="password"
+                  th:value="${memberDto.password}"
                 />
+                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
               </label>
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400"> Nickname </span>
@@ -41,7 +46,9 @@
                   placeholder="닉네임"
                   type="text"
                   name="nickname"
+                  th:value="${memberDto.nickname}"
                 />
+                <div class="text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
               </label>
 
               <div class="flex mt-6 text-sm">

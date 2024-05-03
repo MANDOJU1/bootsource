@@ -56,6 +56,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Long updateReview(ReviewDto reviewDto) {
         // save() => 호출하면
         // 시작되는 순서 1.select 2.insert or update
+
         // 1번방법
         // return reviewRepository.save(DtoToentity(reviewDto)).getReviewNo();
 
