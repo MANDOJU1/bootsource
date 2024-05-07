@@ -40,7 +40,7 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
         // User 로 리턴 or User 구현한 CustomUser 로 리턴
         // Optional<Member> result = memberRepository.findById(null);
 
-        // 1번 방법(User 로 리턴 )
+        // 1번 방법(User 로 리턴)
         // if (result.isPresent()) {
         // Member member = result.get();
 

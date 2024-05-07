@@ -2,6 +2,7 @@ package com.example.movie.service;
 
 import java.util.List;
 
+import com.example.movie.controller.memberController;
 import com.example.movie.dto.ReviewDto;
 import com.example.movie.entity.Member;
 import com.example.movie.entity.Movie;
@@ -39,13 +40,24 @@ public interface ReviewService {
     }
 
     public default Review DtoToentity(ReviewDto reviewDto) {
-        return Review.builder()
-                .reviewNo(reviewDto.getReviewNo())
-                .grade(reviewDto.getGrade())
-                .text(reviewDto.getText())
-                .member(Member.builder().mid(reviewDto.getMid()).build())
-                .movie(Movie.builder().mno(reviewDto.getMno()).build())
-                .build();
+        // 날짜가 오류나는데 .createdDate(ReviewDto.getCreatedDate()) 로는 담을 수 없음
+        // return Review.builder()
+        // .reviewNo(reviewDto.getReviewNo())
+        // .text(reviewDto.getText())
+        // .grade(reviewDto.getGrade())
+        // .member(Member.builder().mid(reviewDto.getMid()).build())
+        // .movie(Movie.builder().mno(reviewDto.getMno()).build())
+        // .build();
+
+        // 그래서 이 방법을 사용
+        Review review = new Review();
+        review.setReviewNo(reviewDto.getReviewNo());
+        review.setText(reviewDto.getText());
+        review.setGrade(reviewDto.getGrade());
+        review.setMember(Member.builder().mid(reviewDto.getMid()).build());
+        review.setCreatedDate(reviewDto.getCreatedDate());
+        review.setMovie(Movie.builder().mno(reviewDto.getMno()).build());
+        return review;
 
     }
 
